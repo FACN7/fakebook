@@ -1,0 +1,24 @@
+{
+  "name": "fakebook",
+  "version": "1.0.0",
+  "description": "a messege board vvebsite",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FACN7/fakebook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FACN7/fakebook/issues"
+  },
+  "homepage": "https://github.com/FACN7/fakebook#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.4",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.11.0"
+  }
+}
