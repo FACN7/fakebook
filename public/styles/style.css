@@ -45,10 +45,18 @@ div.post-box {
   margin-right: 20px;
 }
 div.sm-box {
-  background-color: green;
+
+  background-color: red;
   color: white;
-  height: 30px;
+  height: 50px;
 }
+
+@media screen and (min-width: 1000px) {
+  div.sm-box {
+    margin-top: 3rem;
+    margin-left: 20rem;
+    margin-right: 20rem;  }
+
 div.sm-box p {
   text-align: center;
   line-height: 29px;
