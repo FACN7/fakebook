@@ -7,7 +7,7 @@ const qs = require('querystring');
 const cookieModule = require('cookie');
 const { sign, verify } = require('jsonwebtoken');
 const SECRET = 'poiugyfguhijokpkoihugyfyguhijo';
-
+const handlers = require("./handlers");
 
 const notFoundPage = '<p style="font-size: 10vh; text-align: center;">404!</p>';
 
@@ -24,7 +24,7 @@ module.exports = (req, res) => {
     );
     res.end();
   }
-console.log(`${req.method} ${endpoint}`);
+  console.log(`${req.method} ${endpoint}`);
 
   switch (`${req.method} ${endpoint}`) {
 
@@ -77,64 +77,71 @@ console.log(`${req.method} ${endpoint}`);
       });
     }
       break;
+    case 'POST /getQueryData': {
 
-      case 'GET /blog.html': {
+      handlers.getQueryDataHandler(req, res);
 
 
 
-        readFile(
-          path.join(__dirname, '../public/blog.html'),
-          (err, data) => {
-            if (err) {
-              console.log(err);
-              throw err;
-            }
-            res.writeHead(
-              200,
-              {
-                'Content-Type': 'text/html',
-                'Content-Length': data.length
-              }
-            );
-            return res.end(data);
+    }
+    break;
+    case 'GET /blog.html': {
+
+
+
+      readFile(
+        path.join(__dirname, '../public/blog.html'),
+        (err, data) => {
+          if (err) {
+            console.log(err);
+            throw err;
           }
-        );
-
-
-
-
-        
-      }
-      break;
-    
-      case 'GET /signup.html': {
-
-
-        readFile(
-          path.join(__dirname, '../public/signup.html'),
-          (err, data) => {
-            if (err) {
-              console.log(err);
-              throw err;
+          res.writeHead(
+            200,
+            {
+              'Content-Type': 'text/html',
+              'Content-Length': data.length
             }
-            res.writeHead(
-              200,
-              {
-                'Content-Type': 'text/html',
-                'Content-Length': data.length
-              }
-            );
-            return res.end(data);
-          }
-        );
+          );
+          return res.end(data);
+        }
+      );
 
 
 
 
 
-      }
+    }
       break;
-      case 'GET /logout.html': {
+
+    case 'GET /signup.html': {
+
+
+      readFile(
+        path.join(__dirname, '../public/signup.html'),
+        (err, data) => {
+          if (err) {
+            console.log(err);
+            throw err;
+          }
+          res.writeHead(
+            200,
+            {
+              'Content-Type': 'text/html',
+              'Content-Length': data.length
+            }
+          );
+          return res.end(data);
+        }
+      );
+
+
+
+
+
+    }
+      break;
+    case 'GET /logout.html': {
 
       res.writeHead(
         302,
@@ -149,8 +156,8 @@ console.log(`${req.method} ${endpoint}`);
     }
       break;
 
-    
-      case 'GET /auth_check': {
+
+    case 'GET /auth_check': {
       if (qs.parse(req.headers.cookie).logged_in) {
         console.log(qs.parse(req.headers.cookie));
 
@@ -214,10 +221,10 @@ console.log(`${req.method} ${endpoint}`);
 const checkIfLoggedIn = (req, res, cb) => {
 
   // if (!req.headers.cookie) cb(new Error("not logged in"));
-  
+
   if (typeof req.headers.cookie == 'undefined') { cb(new Error("not logged in")); return; }
 
-  console.log('req.headers.cookie is: '+req.headers.cookie);
+  console.log('req.headers.cookie is: ' + req.headers.cookie);
 
   const { jwt } = cookieModule.parse(req.headers.cookie);
 
