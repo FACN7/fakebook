@@ -2,33 +2,45 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>signin</title>
+    <title>FakeBook | signin</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <link href="styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="styles/navbar.css" rel="stylesheet" type="text/css" />
+    <link href="styles/forms.css" rel="stylesheet" type="text/css" />
+
+
   </head>
   <body>
+    <div class="topnav" id="myTopnav">
+      <a href="./" >fakebook</a>
+      <a href="blog.html">blog</a>
+      <a href="signin.html" class="active">Sign in</a>
+      <a href="signup.html">Sign up</a>
+      <a href="#">Welcome back,[..]</a>
+      <a href="logout.html">Logout</a>
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+
     <div class="page-wrapper">
       <div class="header">
-        <ul>
-          <li><a href="./">fakebook</a></li>
-          <li><a href="blog.html">blog</a></li>
-
-          <li><a href="signin.html">Sign in</a></li>
-          <li><a href="signup.html">Sign up</a></li>
-          <li>Welcome back,[..]</li>
-          <li><a href="logout.html">Logout</a></li>
-        </ul>
-      </div>
-
-      <div class="main">
-        <h1>Here you can sign in with your account -</h1>
+  
+      <div class="form-style-5">
         <form action="" method="POST" novalidate="novalidate">
-          <input type="hidden" name="token" value="" />
-          <label for="email">Email:</label><br />
-          <input type="email" name="email" id="email" value="" /><br /><br />
-          <label for="password">Password:</label><br />
-          <input type="password" name="password" id="password" /><br /><br />
-          <input type="submit" name="submit" value="Sign in" />
-          <span class="error"></span>
+          <fieldset>
+            <legend>
+              <span class="number">*</span> signin to your account
+            </legend>
+            <input type="email" name="email" placeholder="Your Email *" />
+            <textarea name="password" placeholder="password *"></textarea>
+          </fieldset>
+          <span id="err_email" style="color: red" >* pleasee eee </span>
+
+          <input type="submit" value="signin" />
         </form>
       </div>
 
@@ -36,6 +48,6 @@
         <p>FakeBook &copy;</p>
       </div>
     </div>
-    <script src="js/script.js" type="text/javascript"></script>
+    <script src="js/helpers.js" type="text/javascript"></script>
   </body>
 </html>
