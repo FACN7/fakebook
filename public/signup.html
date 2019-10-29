@@ -39,16 +39,18 @@
             <legend>
               <span class="number">*</span> sign up for new account
             </legend>
-            <input type="text" name="name" placeholder="Your Name *" />
-            <input type="email" name="field2" placeholder="Your Email *" />
-            <textarea name="password" placeholder="password *"></textarea>
+            <input type="text" name="name" id="signup_name" placeholder="Your Name *" />
+            <input type="email" name="email" id="signup_email"  placeholder="Your Email *" />
+            <textarea name="password"  id="signup_password" placeholder="password *"></textarea>
             <textarea
               name="confirm_password"
+              id="signup_conf_password"
               placeholder="confirm_password *"
             ></textarea>
           </fieldset>
+          <span class="err" id="err_signin" style="color: red" hidden="hidden">*  </span>
 
-          <input type="submit" value="signup" />
+          <input type="button" value="signup" onclick="signup()" />
         </form>
       </div>
 
