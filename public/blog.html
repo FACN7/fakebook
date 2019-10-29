@@ -21,8 +21,23 @@
       <!-- <div class="sm-box"></div> -->
 
       <div class="main">
-        <h1>Welcome to FakeBook blog</h1>
-        <p>Home page article content demo text.</p>
+        <p>
+          <input
+            type="button"
+            value="+ Add your post"
+            onclick="window.location = 'add_post.php'"
+          />
+        </p>
+        <div class="posts-wrapper">
+          <div class="post-box">
+            <p>
+              <!-- <span class="pull-right">
+            <a href="edit_post.php?pid=<?= $post['id']; ?>"">Edit</a> | 
+            <a href="delete_post.php?pid=<?= $post['id']; ?>">Delete</a>
+          </span> -->
+            </p>
+          </div>
+        </div>
       </div>
 
       <div class="footer">
