@@ -1,4 +1,3 @@
-
 const getQueryData = require("./queries/getQueryData.js");
 const url = require('url');
 const qsModule = require('querystring');

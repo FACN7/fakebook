@@ -1,40 +1,41 @@
 BEGIN;
 
-  DROP TABLE IF EXISTS users, posts CASCADE;
+  DROP TABLE IF EXISTS users, posts;
 
   CREATE TABLE
-  users
+  IF NOT EXISTS users
   (
-  user_id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  email TEXT NOT NULL unique,
-  password TEXT NOT NULL,
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR
+  (50) NOT NULL,
+    email VARCHAR
+  (50) UNIQUE NOT NULL,
+    password VARCHAR
+  (50) NOT NULL
+  );
 
-);
+  INSERT INTO users
+    (name,email,password)
+  VALUES
+    ('Omri', 'omriza5@gmail.com', '123456789'),
+    ('Karem', 'karem@gmail.com', '123456789');
 
-INSERT INTO users
-  (name,email,password)
+  CREATE TABLE
+  IF NOT EXISTS posts
+  (
+    posts_id serial PRIMARY KEY NOT NULL,
+    user_id integer NOT NULL REFERENCES users
+  (user_id),
+    title TEXT NOT NULL,
+    description TEXT NOT NULL UNIQUE,
+    date DATE NOT NULL DEFAULT CURRENT_DATE 
+  );
+
+INSERT INTO posts
+  (user_id,title,description)
 VALUES
-  ('Omri', 'omri@gmail.com', '123'),('Karem','karem@gmail.com','123');
+  (1, 'first tilte', 'this is my first title');
 
 
-CREATE TABLE
-IF NOT EXISTS posts
-(
-  posts_id SERIAL NOT NULL,
-  user_id INTEGER,
-  title varchar(100)  NOT NULL ,
-  content text  NOT NULL ,
-  post_date DATE NOT NULL DEFAULT CURRENT_DATE,
-
-
-  PRIMARY KEY
-(post_id,user_id),
-  FOREIGN KEY
-(user_id) REFERENCES users
-(user_id)
-);
-
-INSERT INTO posts (user_id,title,content,post_date) VALUES (1,1,'first title','first content');
 
 COMMIT;
