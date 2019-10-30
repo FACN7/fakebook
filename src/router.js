@@ -188,7 +188,7 @@ module.exports = (req, res) => {
     case "GET /logout.html":
       {
         res.writeHead(302, {
-          "Set-Cookie": "jwt=0; HttpOnly; Max-Age=0",
+          "Set-Cookie": "jwt=0;  Max-Age=0",
           "Content-Type": "text/html",
           Location: "/"
         });
@@ -241,7 +241,7 @@ module.exports = (req, res) => {
     case "GET /logout.html":
       {
         res.writeHead(302, {
-          "Set-Cookie": "jwt=0; HttpOnly; Max-Age=0",
+          "Set-Cookie": "jwt=0; Max-Age=0",
           "Content-Type": "text/html",
           Location: "/"
         });
@@ -366,7 +366,7 @@ const signInUser = (body, res) => {
               const cookie = sign(userDetails, SECRET);
               res.writeHead(302, {
                 Location: "/",
-                "Set-Cookie": `jwt=${cookie}; HttpOnly`
+                "Set-Cookie": `jwt=${cookie};`
               });
               return res.end();
             }
