@@ -81,15 +81,20 @@ module.exports = (req, res) => {
       break;
 
     case 'POST /signUserIn': {
-      let userEmail = qs.parse(req.headers.qs).userEmail;
-      let password = encryption.hashPassword(qs.parse(req.headers.qs).password);
-      if(userEmail) {
-        getQueryData(`select * from users where email like ${userEmail} AND password like `,(err,arr)=>{
-          if(arr.length!=0){
 
-          }
-        });
-      }
+      let data = '';
+
+      req.on('data', (chunk) => {
+        data += chunk;
+      });
+      req.on('end', () => {
+
+
+        signInUser(data, res);
+
+
+      });
+
     }
       break;
 
@@ -189,7 +194,24 @@ module.exports = (req, res) => {
     }
       break;
 
+    case 'POST /getuserinfo': {
+      checkIfLoggedIn(req, res, (err, jwt) => {
 
+
+
+        res.writeHead(
+          200,
+          {
+            'Content-Type': 'text/json'
+          }
+        );
+        console.log(jwt);
+        return res.end(JSON.stringify(jwt));
+
+
+      });
+
+    }
     case 'GET /auth_check': {
       if (cookieModule.parse(req.headers.cookie).jwt) {
         console.log(cookieModule.parse(req.headers.cookie).jwt);
@@ -311,3 +333,43 @@ const checkIfLoggedIn = (req, res, cb) => {
 
 
 
+
+const signInUser = (body, res) => {
+  let userEmail = qs.parse(body).userEmail;
+  let password = qs.parse(body).password;
+  let correctPassword = "";
+
+
+
+  console.log('parsedbody is ' + userEmail);
+
+  getQueryData(`select * from users where email like '${userEmail}'`, (err, arr) => {
+    if (err) { console.log(err); return; }
+    if (arr.length != 0) {
+      correctPassword = arr[0].password;
+
+      encryption.comparePasswords(password, correctPassword, (err, isCorrect) => {
+        if (isCorrect) {
+
+          let userDetails = {};
+          userDetails.user_id = arr[0].user_id;
+          userDetails.name = arr[0].name;
+          userDetails.email = arr[0].email;
+
+          const cookie = sign(userDetails, SECRET);
+          res.writeHead(
+            302,
+            {
+              'Location': '/',
+              'Set-Cookie': `jwt=${cookie}; HttpOnly`
+            }
+          );
+          return res.end();
+
+        }
+
+      });
+
+    }
+  });
+}
