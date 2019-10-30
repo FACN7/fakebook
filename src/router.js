@@ -60,25 +60,6 @@ module.exports = (req, res) => {
         });
       }
       break;
-
-    case "POST /signUserIn":
-      {
-        let userEmail = qs.parse(req.headers.qs).userEmail;
-        let password = encryption.hashPassword(
-          qs.parse(req.headers.qs).password
-        );
-        if (userEmail) {
-          getQueryData(
-            `select * from users where email like ${userEmail} AND password like `,
-            (err, arr) => {
-              if (arr.length != 0) {
-              }
-            }
-          );
-        }
-      }
-      break;
-
     case "POST /getQueryData":
       {
         handlers.getQueryDataHandler(req, res);
@@ -86,24 +67,71 @@ module.exports = (req, res) => {
       break;
     case "GET /getAllPosts":
       {
-        getQueryData("select * from posts", (err, data) => {
-          if (err) {
-            res.writeHead(500, "Content-Type:text/html");
-            res.end(
-              "<h1>Sorry, there was a problem getting the query result<h1>"
-            );
-            console.log(err);
-          } else {
-            let output = JSON.stringify(data);
-            console.log(output);
+        getQueryData(
+          "select posts.*,users.name,users.email from posts join users on posts.user_id = users.user_id;",
+          (err, data) => {
+            if (err) {
+              res.writeHead(500, "Content-Type:text/html");
+              res.end(
+                "<h1>Sorry, there was a problem getting the query result<h1>"
+              );
+              console.log(err);
+            } else {
+              let output = JSON.stringify(data);
+              console.log(output);
 
-            res.writeHead(200, { "content-type": "application/json" });
-            res.end(output);
+              res.writeHead(200, { "content-type": "application/json" });
+              res.end(output);
+            }
           }
+        );
+      }
+      break;
+    case "POST /signUserIn":
+      {
+        let data = "";
+
+        req.on("data", chunk => {
+          data += chunk;
+        });
+
+        req.on("end", () => {
+          //console.log(data);
+          // const parsed = JSON.parse(data);
+          // console.log("parsed is: ", parsed);
+
+          signInUser(data, res);
         });
       }
       break;
 
+    case "POST /addPost":
+      {
+        let data = "";
+
+        req.on("data", chunk => {
+          data += chunk;
+        });
+
+        req.on("end", () => {
+          addPost(JSON.parse(data), res);
+        });
+      }
+      break;
+
+    case "POST /signUserUp":
+      {
+        let data = "";
+
+        req.on("data", chunk => {
+          data += chunk;
+        });
+
+        req.on("end", () => {
+          signUpUser(JSON.parse(data), res);
+        });
+      }
+      break;
     case "POST /delete_post":
       {
         let data = "";
@@ -113,25 +141,31 @@ module.exports = (req, res) => {
         req.on("end", () => {
           console.log(data);
           let parsedData = JSON.parse(data);
-          console.log(data, "hlloe");
-          deletPostFromDB(
-            `DELETE FROM posts WHERE user_id=1 AND posts_id=${parsedData.post_id}`,
-            (err, data) => {
-              if (err) {
-                res.writeHead(500, "Content-Type:text/html");
-                res.end(
-                  "<h1>Sorry, there was a problem getting the query result<h1>"
-                );
-                console.log(err);
-              } else {
-                let output = JSON.stringify(data);
-                console.log(output);
 
-                res.writeHead(200, { "content-type": "application/json" });
-                res.end(output);
+          console.log(data, "hlloe");
+
+          checkIfLoggedIn(req, res, (err, jwt) => {
+            let user_id = jwt.user_id;
+
+            deletPostFromDB(
+              `DELETE FROM posts WHERE user_id=${user_id} AND posts_id=${parsedData.post_id}`,
+              (err, data) => {
+                if (err) {
+                  res.writeHead(500, "Content-Type:text/html");
+                  res.end(
+                    "<h1>Sorry, there was a problem getting the query result<h1>"
+                  );
+                  console.log(err);
+                } else {
+                  let output = JSON.stringify(data);
+                  console.log(output);
+
+                  res.writeHead(200, { "content-type": "application/json" });
+                  res.end(output);
+                }
               }
-            }
-          );
+            );
+          });
         });
       }
       break;
@@ -151,6 +185,43 @@ module.exports = (req, res) => {
         });
       }
       break;
+    case "GET /logout.html":
+      {
+        res.writeHead(302, {
+          "Set-Cookie": "jwt=0; HttpOnly; Max-Age=0",
+          "Content-Type": "text/html",
+          Location: "/"
+        });
+        res.end();
+      }
+      break;
+
+    case "POST /getuserinfo": {
+      checkIfLoggedIn(req, res, (err, jwt) => {
+        res.writeHead(200, {
+          "Content-Type": "text/json"
+        });
+        console.log(jwt);
+        return res.end(JSON.stringify(jwt));
+      });
+    }
+    // case "GET /auth_check":
+    //   {
+    //     if (cookieModule.parse(req.headers.cookie).jwt) {
+    //       console.log(cookieModule.parse(req.headers.cookie).jwt);
+
+    //       res.writeHead(200, {
+    //         "Content-Type": "text/html"
+    //       });
+    //       return res.end("<h1>were authorized</h1>");
+    //     } else {
+    //       res.writeHead(401, {
+    //         "Content-Type": "text/html"
+    //       });
+    //       return res.end("<h1>were NOT authorized</h1>");
+    //     }
+    //   }
+    //   break;
 
     case "GET /signup.html":
       {
@@ -262,5 +333,95 @@ const checkIfLoggedIn = (req, res, cb) => {
     } else {
       cb(null, jwt);
     }
+  });
+};
+
+const signInUser = (body, res) => {
+  let userEmail = qs.parse(body).userEmail;
+  let password = qs.parse(body).password;
+  let correctPassword = "";
+
+  console.log("parsedbody is " + userEmail);
+
+  getQueryData(
+    `select * from users where email like '${userEmail}'`,
+    (err, arr) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (arr.length != 0) {
+        correctPassword = arr[0].password;
+
+        encryption.comparePasswords(
+          password,
+          correctPassword,
+          (err, isCorrect) => {
+            if (isCorrect) {
+              let userDetails = {};
+              userDetails.user_id = arr[0].user_id;
+              userDetails.name = arr[0].name;
+              userDetails.email = arr[0].email;
+
+              const cookie = sign(userDetails, SECRET);
+              res.writeHead(302, {
+                Location: "/",
+                "Set-Cookie": `jwt=${cookie}; HttpOnly`
+              });
+              return res.end();
+            }
+          }
+        );
+      }
+    }
+  );
+};
+
+const signUpUser = (body, res) => {
+  let userEmail = body.email;
+  let password = body.password;
+  let name = body.name;
+
+  let correctPassword = "";
+  console.log("body is: " + body);
+  encryption.hashPassword(password, (err, hashedPassword) => {
+    console.log("parsedbody is " + userEmail);
+
+    getQueryData(
+      `insert into users (name,email,password)values('${name}','${userEmail}','${hashedPassword}')`,
+      (err, arr) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        res.writeHead(302, {
+          Location: "/signin.html"
+        });
+        return res.end();
+      }
+    );
+  });
+};
+
+const addPost = (body, res) => {
+  let title = body.title;
+  let content = body.content;
+  checkIfLoggedIn(req, res, (err, jwt) => {
+    console.log("body is: " + body);
+    console.log("parsedbody is " + userEmail);
+
+    getQueryData(
+      `insert into posts (user_id,title,description)values('${jwt.user_id}','${title}','${content}')`,
+      (err, arr) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        res.writeHead(302, {
+          Location: "/blog.html"
+        });
+        return res.end();
+      }
+    );
   });
 };

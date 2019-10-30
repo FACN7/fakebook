@@ -1,49 +1,61 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>FakeBook | Main</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link href="styles/style.css" rel="stylesheet" type="text/css" />
-    <link href="styles/navbar.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
 
-      <div class="topnav" id="myTopnav">
-          <a href="./" class="active">fakebook</a>
-          <a href="blog.html">blog</a>
-          <a href="signin.html">Sign in</a>
-          <a href="signup.html">Sign up</a>
-          <a href="#">Welcome back,[..]</a>
-          <a href="logout.html">Logout</a>
-          <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-            <i class="fa fa-bars"></i>
-          </a>
-        </div>
-              <strong><div class="sm-box" id="sm_box" hidden="hidden"> </div></strong>
+<head>
+  <meta charset="UTF-8" />
+  <title>FakeBook | Main</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
+  <link href="styles/style.css" rel="stylesheet" type="text/css" />
+  <link href="styles/navbar.css" rel="stylesheet" type="text/css" />
+  <style>
+    body {
+      background: #DDDDDD;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topnav" id="myTopnav">
 
 
-
-
-
-      <div class="main">
-        <h1>Welcome to FakeBook blog</h1>
-        <p>Home page article content demo text.</p>
-      </div>
-
-      <div class="footer">
-        <p>FakeBook &copy;</p>
-      </div>
-    </div>
-
-    <script>
     
-        </script>
-    <script src="js/helpers.js" type="text/javascript"></script>
-    <script src="js/index.js" type="text/javascript"></script>
+    <a href="./" class="active">fakebook</a>
+    <a href="blog.html" >blog</a>
+    <a href="signin.html" id="whenloein" hidden>Sign in</a>
+    <a href="signup.html" id="whenloein">Sign up</a>
+    <a href="#">Welcome back,[..]</a>
+    <a href="logout.html">Logout</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+  <strong>
+    <div class="sm-box" id="sm_box" hidden="hidden"> </div>
+  </strong>
 
-  </body>
+
+
+
+
+  <div class="main">
+    <h1 class="main-header-title">Welcome to FakeBook blog</h1>
+    <img src="https://s3.amazonaws.com/pixpa.com/com/articles/1516553730-shutterstock_429631015.jpg" alt=""
+      class="main-img">
+  </div>
+
+  <div class="footer">
+    <p>FakeBook &copy;</p>
+  </div>
+  </div>
+
+  <script>
+
+  </script>
+  <script src="js/helpers.js" type="text/javascript"></script>
+  <script src="js/toolbar.js" type="text/javascript"></script>
+
+</body>
+
 </html>

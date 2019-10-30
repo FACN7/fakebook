@@ -11,14 +11,14 @@ BEGIN;
     email VARCHAR
   (50) UNIQUE NOT NULL,
     password VARCHAR
-  (50) NOT NULL
+  (200) NOT NULL
   );
 
   INSERT INTO users
     (name,email,password)
   VALUES
-    ('Omri', 'omriza5@gmail.com', '123456789'),
-    ('Karem', 'karem@gmail.com', '123456789');
+    ('Omri', 'omriza5@gmail.com', '$2a$10$jaE1jYP32AEiEqbLQpyCBuCfLcXyqfmzNZHt5rUptz5xoRxW/RbgG'),
+    ('Karem', 'karem@gmail.com', '$2a$10$jaE1jYP32AEiEqbLQpyCBuCfLcXyqfmzNZHt5rUptz5xoRxW/RbgG');
 
   CREATE TABLE
   IF NOT EXISTS posts
