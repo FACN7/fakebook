@@ -33,20 +33,20 @@
       <!-- <div class="sm-box"></div> -->
 
       <div class="form-style-5">
-          <form action="" method="POST" novalidate="novalidate">
+          <form >
             <fieldset>
               <legend>
                 <span class="number">*</span> Add your new post
               </legend>
-              <input type="text" name="title" placeholder="Your title *" />
-              <textarea rows="10" cols="50" name="content" placeholder="add your content *"></textarea>
+              <input type="text" name="title" id="title" placeholder="Your title *" />
+              <textarea rows="10" cols="50" id="content" name="content" placeholder="add your content *"></textarea>
             </fieldset>
             <input
             type="button"
             value="Cancel"
             onclick="window.location = 'blog.html';"
           />
-          <input type="submit" name="submit" value="Save post" />
+          <input type="button" name="submit" value="Save post" onclick="addNewPost()" />
 
           </form>
         </div>
@@ -58,6 +58,7 @@
       <div class="footer">
         <p>FakeBook &copy;</p>
       </div>
-    <script src="js/helpers.js" type="text/javascript"></script>
+      <script src="js/helpers.js" type="text/javascript"></script>
+      <script src="js/addpost.js" type="text/javascript"></script>
   </body>
 </html>

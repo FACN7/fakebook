@@ -74,8 +74,15 @@ function signup() {
     showErrorBox(9);
   } else if (!validateEmail(signup_email)) {
     showErrorBox(10);
-  } else {
+  } else if (true) {
     document.getElementById("err_signin").hidden = "hidden";
+    fetch("/signUserUp", {
+      method: "POST",
+      body: JSON.stringify({
+        email: signup_email,
+        name: signup_name,
+        password: signup_password
+      })
+    }).catch(err => console.log(err));
   }
-  //here we check details with DB
 }
