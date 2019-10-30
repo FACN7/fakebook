@@ -84,5 +84,6 @@ function signup() {
         password: signup_password
       })
     }).catch(err => console.log(err));
+    location.href = "signin.html";
   }
 }

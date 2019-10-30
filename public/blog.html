@@ -11,14 +11,24 @@
   <link href="styles/navbar.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
-  <div class="topnav" id="myTopnav">
-    <a href="./">fakebook</a>
-    <a href="blog.html" class="active">blog</a>
-    <a href="signin.html">Sign in</a>
-    <a href="signup.html">Sign up</a>
-    <a href="#">Welcome back,[..]</a>
-    <a href="logout.html">Logout</a>
+<body onload="loadfunc()">
+
+    <div class="topnav" id="myTopnav">
+  
+        <a href="./" class="active">fakebook</a>
+        <a href="blog.html" >blog</a>
+  
+  
+      <div id="whenconnect" >
+      <a href="signin.html" id="whenloein" hidden>Sign in</a>
+      <a href="signup.html" id="whenloein">Sign up</a>
+      </div>
+  
+      <div id="notconnect">
+          <a href="#">Welcome back,[..]</a>
+          <a href="logout.html">Logout</a>
+      </div>
+  
     <a href="javascript:void(0);" class="icon" onclick="myFunction()">
       <i class="fa fa-bars"></i>
     </a>
@@ -47,6 +57,7 @@
     </div>
     <script src="js/helpers.js" type="text/javascript"></script>
     <script src="js/app.js" type="text/javascript"></script>
+    <script src="js/toolbar.js" type="text/javascript"></script>
 
     <script src="js/blog.js" type="text/javascript"></script>
 </body>

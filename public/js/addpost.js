@@ -10,5 +10,6 @@ function addNewPost() {
         content
       })
     }).catch(err => console.log(err));
+    location.href = "blog.html";
   }
 }
