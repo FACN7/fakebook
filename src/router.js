@@ -206,14 +206,37 @@ module.exports = (req, res) => {
       );
       break;
     default:
-      res.writeHead(
-        404,
+
+
         {
-          'Content-Type': 'text/html',
-          'Content-Length': notFoundPage.length
+          const fileName = req.url;
+          const fileType = req.url.split(".")[1];
+          readFile(__dirname + "/../public" + fileName, function(error, file) {
+            if (error) {
+              res.writeHead(500, "Content-Type:text/html");
+              res.end("<h1>Sorry, there was a problem loading this page</h1>");
+              console.log(error);
+            } else {
+              res.writeHead(200, {
+                "Content-Type": "text/" + fileType
+              });
+              res.end(file);
+            }
+          });
         }
-      );
-      return res.end(notFoundPage);
+
+
+
+
+
+    //   res.writeHead(
+    //     404,
+    //     {
+    //       'Content-Type': 'text/html',
+    //       'Content-Length': notFoundPage.length
+    //     }
+    //   );
+    //   return res.end(notFoundPage);
   }
 }
 
