@@ -1,6 +1,6 @@
 const databaseConnection = require("../database/db_connection.js");
 
-const getQueryData = (qs,cb) => {
+const getQueryData = (qs, cb) => {
   databaseConnection.query(qs, (err, res) => {
     if (err) {
       cb(err);
@@ -10,4 +10,12 @@ const getQueryData = (qs,cb) => {
   });
 };
 
-module.exports = getQueryData;
+const deletPostFromDB = (qs, cb) => {
+  databaseConnection.query(qs, (err, res) => {
+    if (err) {
+      cb(err);
+    }
+  });
+};
+
+module.exports = { getQueryData, deletPostFromDB };

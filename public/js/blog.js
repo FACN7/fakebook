@@ -1,26 +1,14 @@
-function getAllPosts(cb) {
-  data = [
-    {
-      user_name: "avi",
-      posts_id: 1,
-      user_id: 1,
-      title: "first tilte",
-      description: "this is my first title",
-      date: "2019-10-28T22:00:00.000Z"
-    },
-    {
-      user_name: "karem",
-      posts_id: 2,
-      user_id: 2,
-      title: "karems tilte",
-      description: "this is my karems title",
-      date: "2019-10-29T22:00:00.000Z"
-    }
-  ];
-  cb(null, data);
-}
+var user_signin_id = 1;
 
-var user_signin_id = 2;
+if (sessionStorage.getItem("seletedpostid")) {
+  document.getElementById("sm-box").hidden = "";
+  document.getElementById("sm-box").innerHTML = "Your Post been deleted";
+
+  setTimeout(function() {
+    document.getElementById("sm-box").hidden = "hidden";
+    sessionStorage.removeItem("seletedpostid");
+  }, 3000);
+}
 
 getAllPosts(function(err, data) {
   if (err) console.log(err);
@@ -52,8 +40,11 @@ getAllPosts(function(err, data) {
     parent.appendChild(container);
 
     if (user_signin_id == element.user_id) {
+      var post_id = element.posts_id;
       var delet_btn = document.createElement("button");
       delet_btn.className = "delete";
+      delet_btn.id = element.posts_id;
+
       delet_btn.innerHTML = "Delete";
 
       var edit_btn = document.createElement("button");
@@ -62,6 +53,11 @@ getAllPosts(function(err, data) {
 
       container.appendChild(delet_btn);
       container.appendChild(edit_btn);
+
+      delet_btn.onclick = function(e) {
+        console.log(e.target.id);
+        location.href = "delete_post.html?post_id=" + e.target.id;
+      };
     }
   });
 });
