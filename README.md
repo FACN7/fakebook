@@ -4,7 +4,7 @@
 
 ## A group project for Founders and Coders Nazareth, week 7
 
-Link to [Heroku]("http://fakebookdb.herokuapp.com")
+Link to [Heroku](http://fakebookdb.herokuapp.com)
 
 ### `how to install`
 
