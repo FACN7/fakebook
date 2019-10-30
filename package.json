@@ -1,4 +1,4 @@
-np{
+{
   "name": "fakebook",
   "version": "1.0.0",
   "description": "a messege board vvebsite",
@@ -20,11 +20,12 @@ np{
     "nodemon": "^1.19.4",
     "tap-spec": "^5.0.0",
     "tape": "^4.11.0"
-  },"dependencies": {
-    "bcryptjs":"2.4.3",
-    "cookie":"0.4.0",
-    "env2":"2.2.2",
-    "jsonwebtoken":"8.5.1",
-    "pg":"7.12.1"
+  },
+  "dependencies": {
+    "bcryptjs": "2.4.3",
+    "cookie": "0.4.0",
+    "env2": "2.2.2",
+    "jsonwebtoken": "8.5.1",
+    "pg": "7.12.1"
   }
 }

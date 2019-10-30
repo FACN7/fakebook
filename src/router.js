@@ -114,7 +114,7 @@ module.exports = (req, res) => {
         });
 
         req.on("end", () => {
-          addPost(JSON.parse(data), res);
+          addPost(JSON.parse(data), req, res);
         });
       }
       break;
@@ -394,8 +394,10 @@ const signUpUser = (body, res) => {
           console.log(err);
           return;
         }
-        res.writeHead(302, {
-          Location: "/signin.html"
+
+        res.writeHead(200, {
+          "Content-Type": "text/html",
+          "Content-Length": data.length
         });
         return res.end();
       }
@@ -403,12 +405,11 @@ const signUpUser = (body, res) => {
   });
 };
 
-const addPost = (body, res) => {
+const addPost = (body, req, res) => {
   let title = body.title;
   let content = body.content;
   checkIfLoggedIn(req, res, (err, jwt) => {
-    console.log("body is: " + body);
-    console.log("parsedbody is " + userEmail);
+    console.log("title is: " + body.title + ", content is: " + body.content);
 
     getQueryData(
       `insert into posts (user_id,title,description)values('${jwt.user_id}','${title}','${content}')`,
@@ -417,8 +418,9 @@ const addPost = (body, res) => {
           console.log(err);
           return;
         }
-        res.writeHead(302, {
-          Location: "/blog.html"
+        res.writeHead(200, {
+          "Content-Type": "text/html",
+          "Content-Length": data.length
         });
         return res.end();
       }
