@@ -45,7 +45,6 @@ div.post-box {
   margin-right: 20px;
 }
 div.sm-box {
-
   background-color: red;
   color: white;
   height: 50px;
@@ -55,9 +54,26 @@ div.sm-box {
   div.sm-box {
     margin-top: 3rem;
     margin-left: 20rem;
-    margin-right: 20rem;  }
+    margin-right: 20rem;
+  }
+}
 
 div.sm-box p {
   text-align: center;
   line-height: 29px;
+}
+
+.err {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2em;
+}
+
+div.results_container {
+  border: 1px solid lightgray;
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+div.results_container p {
+  font-family: Arial, Helvetica, sans-serif;
 }
