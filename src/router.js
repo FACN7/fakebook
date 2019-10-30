@@ -8,8 +8,10 @@ const cookieModule = require('cookie');
 const { sign, verify } = require('jsonwebtoken');
 const SECRET = 'poiugyfguhijokpkoihugyfyguhijo';
 const handlers = require("./handlers");
-
+const getQueryData = require('./queries/getQueryData');
 const notFoundPage = '<p style="font-size: 10vh; text-align: center;">404!</p>';
+const encryption = require('./encryption');
+
 
 module.exports = (req, res) => {
   const endpoint = parse(req.url).pathname;
@@ -77,6 +79,20 @@ module.exports = (req, res) => {
       });
     }
       break;
+
+    case 'POST /signUserIn': {
+      let userEmail = qs.parse(req.headers.qs).userEmail;
+      let password = encryption.hashPassword(qs.parse(req.headers.qs).password);
+      if(userEmail) {
+        getQueryData(`select * from users where email like ${userEmail} AND password like `,(err,arr)=>{
+          if(arr.length!=0){
+
+          }
+        });
+      }
+    }
+      break;
+
     case 'POST /getQueryData': {
 
       handlers.getQueryDataHandler(req, res);
@@ -84,7 +100,24 @@ module.exports = (req, res) => {
 
 
     }
-    break;
+      break;
+    case 'GET /getAllPosts': {
+      getQueryData('select * from posts', (err, data) => {
+        if (err) {
+          res.writeHead(500, "Content-Type:text/html");
+          res.end("<h1>Sorry, there was a problem getting the query result<h1>");
+          console.log(err);
+        } else {
+          let output = JSON.stringify(data);
+          console.log(output);
+
+          res.writeHead(200, { "content-type": "application/json" });
+          res.end(output);
+        }
+      });
+    }
+      break;
+
     case 'GET /blog.html': {
 
 
@@ -158,8 +191,8 @@ module.exports = (req, res) => {
 
 
     case 'GET /auth_check': {
-      if (qs.parse(req.headers.cookie).logged_in) {
-        console.log(qs.parse(req.headers.cookie));
+      if (cookieModule.parse(req.headers.cookie).jwt) {
+        console.log(cookieModule.parse(req.headers.cookie).jwt);
 
         res.writeHead(
           200,
@@ -208,22 +241,22 @@ module.exports = (req, res) => {
     default:
 
 
-        {
-          const fileName = req.url;
-          const fileType = req.url.split(".")[1];
-          readFile(__dirname + "/../public" + fileName, function(error, file) {
-            if (error) {
-              res.writeHead(500, "Content-Type:text/html");
-              res.end("<h1>Sorry, there was a problem loading this page</h1>");
-              console.log(error);
-            } else {
-              res.writeHead(200, {
-                "Content-Type": "text/" + fileType
-              });
-              res.end(file);
-            }
-          });
-        }
+      {
+        const fileName = req.url;
+        const fileType = req.url.split(".")[1];
+        readFile(__dirname + "/../public" + fileName, function (error, file) {
+          if (error) {
+            res.writeHead(500, "Content-Type:text/html");
+            res.end("<h1>Sorry, there was a problem loading this page</h1>");
+            console.log(error);
+          } else {
+            res.writeHead(200, {
+              "Content-Type": "text/" + fileType
+            });
+            res.end(file);
+          }
+        });
+      }
 
 
 
