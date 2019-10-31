@@ -169,7 +169,31 @@ module.exports = (req, res) => {
         });
       }
       break;
+    case "GET /add_post.html": {
+      checkIfLoggedIn(req, res, (err, jwt) => {
+        if (err) {
+          res.writeHead(302, {
+            "Content-Type": "text/html",
+            Location: "/signin.html"
+          });
+          res.end();
+          return;
+        } else {
+          readFile(path.join(__dirname, "../public/add_post.html"), (err, data) => {
+            if (err) {
+              console.log(err);
+              throw err;
+            }
+            res.writeHead(200, {
+              "Content-Type": "text/html",
+              "Content-Length": data.length
+            });
+            return res.end(data);
+          });
+        }
+      });
 
+    }
     case "GET /blog.html":
       {
         readFile(path.join(__dirname, "../public/blog.html"), (err, data) => {
@@ -198,6 +222,12 @@ module.exports = (req, res) => {
 
     case "POST /getuserinfo": {
       checkIfLoggedIn(req, res, (err, jwt) => {
+        if (err) {
+          res.writeHead(200, {
+            "Content-Type": "text/json"
+          });
+          return res.end(JSON.stringify({}));
+        }
         res.writeHead(200, {
           "Content-Type": "text/json"
         });
@@ -282,7 +312,7 @@ module.exports = (req, res) => {
     default: {
       const fileName = parse(req.url).pathname;
       const fileType = req.url.split(".")[1].split("?")[0];
-      readFile(__dirname + "/../public" + fileName, function(error, file) {
+      readFile(__dirname + "/../public" + fileName, function (error, file) {
         if (error) {
           res.writeHead(500, "Content-Type:text/html");
           res.end("<h1>Sorry, there was a problem loading this page</h1>");
