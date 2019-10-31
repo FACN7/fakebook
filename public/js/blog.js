@@ -1,5 +1,7 @@
 getUserInfo((user_id, name, email) => {
   var user_signin_id = user_id;
+  console.log("+++++++++++++++");
+  console.log(user_signin_id);
 
   if (sessionStorage.getItem("seletedpostid")) {
     document.getElementById("sm-box").hidden = "";
@@ -42,6 +44,8 @@ getUserInfo((user_id, name, email) => {
       container.appendChild(user_name);
       container.appendChild(date);
       parent.appendChild(container);
+      console.log("\\\\\\\\\\\\\\+");
+      console.log(element.user_id);
 
       if (user_signin_id == element.user_id) {
         var post_id = element.posts_id;
