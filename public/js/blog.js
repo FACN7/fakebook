@@ -1,18 +1,22 @@
-getUserInfo((user_id, name, email) => {
-  var user_signin_id = user_id;
-  console.log("+++++++++++++++");
-  console.log(user_signin_id);
+getUserInfo((err, user_id, name, email) => {
+  var user_signin_id = null;
+  if (err) {
+    //if no ones logged in
+    console.log("in blog.js: no user detected");
+  } else {
+    // if someone is logged in
+    user_signin_id = user_id;
 
-  if (sessionStorage.getItem("seletedpostid")) {
-    document.getElementById("sm-box").hidden = "";
-    document.getElementById("sm-box").innerHTML = "Your Post been deleted";
+    if (sessionStorage.getItem("seletedpostid")) {
+      document.getElementById("sm-box").hidden = "";
+      document.getElementById("sm-box").innerHTML = "Your Post been deleted";
 
-    setTimeout(function() {
-      document.getElementById("sm-box").hidden = "hidden";
-      sessionStorage.removeItem("seletedpostid");
-    }, 3000);
+      setTimeout(function() {
+        document.getElementById("sm-box").hidden = "hidden";
+        sessionStorage.removeItem("seletedpostid");
+      }, 3000);
+    }
   }
-
   getAllPosts(function(err, data) {
     if (err) console.log(err);
 

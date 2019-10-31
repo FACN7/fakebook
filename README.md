@@ -1,8 +1,10 @@
 # FACN7 Fakebook
 
+
+
 ## A group project for Founders and Coders Nazareth, week 7
 
-Link to [Heroku]("enter heruko url")
+Link to [Heroku](http://fakebookdb.herokuapp.com)
 
 ### `how to install`
 
