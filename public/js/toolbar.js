@@ -13,7 +13,7 @@ function loadfunc() {
     //connect
     whenconnect.style.display = "none";
     notconnect.style.display = "block";
-    getUserInfo((user_id, name, email) => {
+    getUserInfo((err,user_id, name, email) => {
       welcoming_tag = document.getElementById("welcoming");
       if (welcoming_tag) {
         // if the welcoming tab exists, write the name

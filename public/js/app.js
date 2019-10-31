@@ -15,13 +15,19 @@ function getUserInfo(cb) {
         method: "POST",
         body: null
     }).then(data => data.json()).then(userData => {
+        console.log(userData)
+            
+        if(userData=={}){
+            cb(new Error('user not found'));
+            
+        }else{
         let user_id=userData.user_id;
         let name= userData.name;
         let email=userData.email;
 
-        console.log(userData);
-        cb(user_id,name,email);
-
+        console.log("arrived as user "+userData);
+        cb(null,user_id,name,email);
+        }
     }).catch(err => console.log(err));
 
 }
