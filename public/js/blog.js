@@ -1,29 +1,30 @@
 getUserInfo((err, user_id, name, email) => {
   var user_signin_id = null;
-  if (err) { //if no ones logged in
+  if (err) {
+    //if no ones logged in
     console.log("in blog.js: no user detected");
-  } else {// if someone is logged in
+  } else {
+    // if someone is logged in
     user_signin_id = user_id;
 
     if (sessionStorage.getItem("seletedpostid")) {
       document.getElementById("sm-box").hidden = "";
       document.getElementById("sm-box").innerHTML = "Your Post been deleted";
 
-      setTimeout(function () {
+      setTimeout(function() {
         document.getElementById("sm-box").hidden = "hidden";
         sessionStorage.removeItem("seletedpostid");
       }, 3000);
     }
-
   }
-  getAllPosts(function (err, data) {
+  getAllPosts(function(err, data) {
     if (err) console.log(err);
 
     var container = document.getElementById("results-container");
     var parent = document.getElementById("bigcont");
     container.remove();
 
-    data.map(function (element) {
+    data.map(function(element) {
       console.log(element);
 
       container = document.createElement("div");
@@ -47,6 +48,8 @@ getUserInfo((err, user_id, name, email) => {
       container.appendChild(user_name);
       container.appendChild(date);
       parent.appendChild(container);
+      console.log("\\\\\\\\\\\\\\+");
+      console.log(element.user_id);
 
       if (user_signin_id == element.user_id) {
         var post_id = element.posts_id;
@@ -64,18 +67,11 @@ getUserInfo((err, user_id, name, email) => {
         container.appendChild(delet_btn);
         container.appendChild(edit_btn);
 
-        delet_btn.onclick = function (e) {
+        delet_btn.onclick = function(e) {
           console.log(e.target.id);
           location.href = "delete_post.html?post_id=" + e.target.id;
         };
       }
     });
   });
-
-
-
-
-
- 
-
 });

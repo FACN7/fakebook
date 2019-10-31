@@ -18,6 +18,7 @@ function loadfunc() {
       if (welcoming_tag) {
         // if the welcoming tab exists, write the name
         welcoming_tag.textContent = "[ wekcome back " + name + " ]";
+        console.log(name);
       }
     });
   } else {
