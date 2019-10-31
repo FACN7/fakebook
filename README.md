@@ -17,21 +17,6 @@ You can clone the repo by typing the command
 > google-chrome index.html
 ```
 
-### `how to test`
-
-Install tape and tap-spec
-
-```console
-> npm i tape -D
-> npm i tap-spec -D
-```
-
-Run the test command
-
-```console
-> npm test
-```
-
 ## user journey
 
 As a member of fakebook blog...
